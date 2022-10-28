@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/ssafy_board?serverTimezone=UTC" />
+        <property name="username" value="ssafy" />
+        <property name="password" value="ssafy" />
+    </bean>
+
+    <!-- 마이바티스를 사용하기 위한 SqlSessionFactory 등록 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath*:mapper/board.xml" />
+        <property name="typeAliasesPackage" value="com.ssafy.board.model.dto" />
+    </bean>
+    
+    <mybatis-spring:scan base-package="com.ssafy.board.model.dao" />
+
+    <context:component-scan base-package="com.ssafy.board" />
+</beans>
